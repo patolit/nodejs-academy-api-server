@@ -40,7 +40,7 @@ async function getByTitle(title) {
 
 async function createMovie({ title, img, synopsis, rating, year }, user) {
   const nextMovieId = await getNextMovieId()
-  const movie = new Movie({ title, img, synopsis, rating, year, movie_id: nextMovieId, owner: user._id })
+  const movie = new Movie({ title, img, synopsis, rating, year, movie_id: nextMovieId })
   movie.save()
   return movie
 }

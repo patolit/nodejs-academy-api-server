@@ -6,6 +6,7 @@ const addDate = require('./middleware/addDate')
 const addResponseHeader = require('./middleware/addResponseHeader')
 const moviesRouter = require('./routers/movies-router')
 const usersRouter = require('./routers/users-router')
+const shiftRouter = require('./routers/shift-router')
 
 const app = express()
 const port = process.env.PORT || 8080
@@ -19,6 +20,7 @@ app.use(
 app.use(serverLog, addDate, addResponseHeader)
 app.use('/movies', moviesRouter)
 app.use('/users', usersRouter)
+app.use('/shift', shiftRouter)
 
 app.get('/', (req, res, next) => {
   res.status(200).json({
@@ -63,6 +65,12 @@ app.use(async (err, req, res, next) => {
   }
   return res.status(err.statusCode).json({ error: err.message })
 })
+
+process.on("uncaughtException", err => {
+  console.log('There was an uncaught error', err)
+  process.exit(1) //mandatory (as per the Node.js docs)
+}
+)
 
 const server = app.listen(port, () => console.log(` 🚀 server started on port ${port}`))
 module.exports = { app, server }

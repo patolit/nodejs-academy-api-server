@@ -21,7 +21,7 @@ const movieSchema = new Schema({
     year: Number,
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        required: false,
         ref: 'User'
     }
 })
