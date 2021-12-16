@@ -4,13 +4,15 @@ const auth = require('./../middleware/auth')
 
 const {
   createShift,
+  getShifts,
   deleteShift,
   modifyShift,
   validate,
 } = require('../controllers/shift-controller')
 
-shiftRouter.post('', validate('createShift'), createShift)
-shiftRouter.patch('/:id', validate('modifyShift'), modifyShift)
-shiftRouter.delete(':id', deleteShift)
+shiftRouter.get('/', getShifts)
+shiftRouter.post('/', createShift)
+shiftRouter.patch('/:name', modifyShift)
+shiftRouter.delete('/:id', deleteShift)
 
 module.exports = shiftRouter

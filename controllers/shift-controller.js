@@ -2,6 +2,15 @@ const { body, validationResult } = require('express-validator')
 const InvalidParamError = require('./../errors/InvalidParamError')
 const ShiftService = require('./../services/shift-service')
 
+async function getShifts(req, res, next) {
+  try {
+    const shifts = await ShiftService.getAllShifts()
+    return res.status(200).json({ shifts, total: shifts.length })
+  } catch (err) {
+    next(err)
+  }
+}
+
 async function createShift(req, res, next) {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -10,7 +19,7 @@ async function createShift(req, res, next) {
 
   const { name, repetition, duration, peoplePerShift, start, end } = req.body
   try {
-    const shift = await ShiftService.createShifta(
+    const shift = await ShiftService.createShift(
       name,
       repetition,
       duration,
@@ -31,12 +40,12 @@ async function modifyShift(request, response, next) {
     return next(InvalidMovieParamError(errors.array()[0].msg))
   }
 
-  const shiftName = parseInt(request.params.name)
-  const shift = await ShiftService.findShifta(shiftName)
+  const { name } = request.params
+  const shift = await ShiftService.findShift(name)
   const doesShiftExist = !!shift
 
   if (!doesShiftExist) {
-    return response.status(404).json({ error: `no shift with name ${shiftName}` })
+    return response.status(404).json({ error: `no shift with name ${name}` })
   }
 
   const { repetition, duration, peoplePerShift, start, end } = request.body
@@ -49,15 +58,15 @@ async function modifyShift(request, response, next) {
     ...(end && { end }),
   }
   const patchedShiftAtrributes = { ...shift, ...definedParams }
-  const updatedShift = await ShiftService.updateShifta(shift._id, patchedShiftAtrributes)
+  const updatedShift = await ShiftService.modifyShift(shift._id, patchedShiftAtrributes)
   return response.status(200).json(updatedShift)
 }
 
 async function deleteShift(req, res, next) {
   try {
-    const countDeleted = await ShiftService.deleteshifta(req.shift)
+    const countDeleted = await ShiftService.deleteshift(req.shift)
     if (countDeleted > 0) {
-      res.status(200).send({ uses: req.shift })
+      res.status(200).send({ shift: req.shift })
     } else {
       throw Error(`Failed to delete shift ${req.shift.id}`)
     }
@@ -75,7 +84,9 @@ function validate(method) {
         body('password', "password doesn't exists").exists().isString(),
       ]
     }
+    default:
+      return console.log('no case for you')
   }
 }
 
-module.exports = { createShift, deleteShift, modifyShift, validate }
+module.exports = { getShifts, createShift, modifyShift, validate, deleteShift }

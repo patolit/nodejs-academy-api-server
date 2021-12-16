@@ -54,7 +54,6 @@ app
     })
   })
 
-  
 app.use(async (err, req, res, next) => {
   if (res && res.headersSent) {
     return next(err)
@@ -66,11 +65,11 @@ app.use(async (err, req, res, next) => {
   return res.status(err.statusCode).json({ error: err.message })
 })
 
-process.on("uncaughtException", err => {
+process.on('uncaughtException', (err) => {
   console.log('There was an uncaught error', err)
+  res.status(err.statusCode).jason({ error: err.message })
   process.exit(1) //mandatory (as per the Node.js docs)
-}
-)
+})
 
 const server = app.listen(port, () => console.log(` 🚀 server started on port ${port}`))
 module.exports = { app, server }

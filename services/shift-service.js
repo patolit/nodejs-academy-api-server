@@ -1,12 +1,12 @@
 const Shift = require('../db/models/shift')
 
-async function createShifta(name, repetition, duration, peoplePerShift, start, end = null) {
+async function createShift(name, repetition, duration, peoplePerShift, start, end = null) {
   const shift = new Shift({ name, repetition, duration, peoplePerShift, start, end })
   const savedUser = await shift.save()
   return shift
 }
 
-async function modifyShifta(id, { name, repetition, duration, peoplePerShift, start, end }) {
+async function modifyShift(id, { name, repetition, duration, peoplePerShift, start, end }) {
   const newShiftObject = await Shift.findOneAndUpdate(
     { _id: id },
     { name, repetition, duration, peoplePerShift, start, end },
@@ -15,19 +15,25 @@ async function modifyShifta(id, { name, repetition, duration, peoplePerShift, st
   return newShiftObject
 }
 
-async function findShifta(name) {
-  const shift = await User.findOne(name)
+async function getAllShifts() {
+  const shifts = await Shift.find()
+  return shifts
+}
+
+async function findShift(name) {
+  const shift = await Shift.findOne({ name })
   return shift
 }
 
-async function deleteShifta(shift) {
-  const result = await User.deleteOne({ _id: shift.id })
+async function deleteShift(shift) {
+  const result = await Shift.deleteOne({ _id: shift._id })
   return result.deletedCount
 }
 
 module.exports = {
-  createShifta,
-  modifyShifta,
-  findShifta,
-  deleteShifta,
+  getAllShifts,
+  createShift,
+  modifyShift,
+  findShift,
+  deleteShift,
 }
