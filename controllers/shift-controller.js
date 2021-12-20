@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator')
+const { body, validationResult, oneOf } = require('express-validator')
 const InvalidParamError = require('./../errors/InvalidParamError')
 const ShiftService = require('./../services/shift-service')
 
@@ -37,7 +37,7 @@ async function createShift(req, res, next) {
 async function modifyShift(request, response, next) {
   const errors = validationResult(request)
   if (!errors.isEmpty()) {
-    return next(InvalidMovieParamError(errors.array()[0].msg))
+    return next(InvalidParamError(errors.array()[0].msg))
   }
 
   const { name } = request.params
@@ -77,15 +77,28 @@ async function deleteShift(req, res, next) {
 
 function validate(method) {
   switch (method) {
-    case 'createUser': {
+    case 'createShift': {
       return [
-        body('email', 'email dosnt exists or invalid').exists().isEmail(),
-        body('name', 'name dosnt not exists or invalid').exists().isString().escape(),
-        body('password', "password doesn't exists").exists().isString(),
+        body('name', 'name dosnt exists or invalid').exists().isString(),
+        body('repetition', 'repetition dosnt not exists or invalid').exists().isString().escape(),
+        body('duration', "duration doesn't exists").exists().isNumeric(),
+        body('peoplePerShift', "peoplePerShift doesn't exists").exists().isString(),
+        body('start', "start doesn't exists").exists().isString(),
+        body('end', "end doesn't exists").isString(),
+      ]
+    }
+    case 'modifyShift': {
+      return [
+        //param('name', 'name dosnt exists or invalid').exists().isString(),
+        body('repetition', 'repetition dosnt not exists or invalid').optional().isString().escape(),
+        body('duration', "duration doesn't exists").optional().isNumeric(),
+        body('peoplePerShift', "peoplePerShift doesn't exists").optional().isString(),
+        body('start', "start doesn't exists").optional().isString(),
+        body('end', "end doesn't exists").optional().isString(),
       ]
     }
     default:
-      return console.log('no case for you')
+      return () => console.log('no case for you')
   }
 }
 
