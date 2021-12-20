@@ -11,8 +11,8 @@ const {
 } = require('../controllers/shift-controller')
 
 shiftRouter.get('/', getShifts)
-shiftRouter.post('/', createShift)
-shiftRouter.patch('/:name', modifyShift)
+shiftRouter.post('/', validate('createShift'), createShift)
+shiftRouter.patch('/:name', validate('modifyShift'), modifyShift)
 shiftRouter.delete('/:id', deleteShift)
 
 module.exports = shiftRouter
