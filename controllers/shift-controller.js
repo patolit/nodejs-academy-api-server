@@ -1,4 +1,4 @@
-const { body, validationResult, oneOf } = require('express-validator')
+const { body, param, validationResult } = require('express-validator')
 const InvalidParamError = require('./../errors/InvalidParamError')
 const ShiftService = require('./../services/shift-service')
 
@@ -89,7 +89,7 @@ function validate(method) {
     }
     case 'modifyShift': {
       return [
-        //param('name', 'name dosnt exists or invalid').exists().isString(),
+        param('name', 'name dosnt exists or invalid').exists().isString(),
         body('repetition', 'repetition dosnt not exists or invalid').optional().isString().escape(),
         body('duration', "duration doesn't exists").optional().isNumeric(),
         body('peoplePerShift', "peoplePerShift doesn't exists").optional().isString(),

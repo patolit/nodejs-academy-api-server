@@ -7,6 +7,7 @@ const addResponseHeader = require('./middleware/addResponseHeader')
 const moviesRouter = require('./routers/movies-router')
 const usersRouter = require('./routers/users-router')
 const shiftRouter = require('./routers/shift-router')
+const soldierRouter = require('./routers/soldier-router')
 
 const app = express()
 const port = process.env.PORT || 8080
@@ -20,6 +21,7 @@ app.use(
 app.use(serverLog, addDate, addResponseHeader)
 app.use('/movies', moviesRouter)
 app.use('/users', usersRouter)
+app.use('/soldier', soldierRouter)
 app.use('/shift', shiftRouter)
 
 app.get('/', (req, res, next) => {

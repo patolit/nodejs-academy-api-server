@@ -1,0 +1,11 @@
+{
+  "soldiers": [
+    { "soldier_id": 1, "name": "ariel", "img": "http://test.com" },
+    { "soldier_id": 2, "name": "jorge", "img": "http://test.com" },
+    { "soldier_id": 3, "name": "edu", "img": "http://test.com" },
+    { "soldier_id": 4, "name": "mark", "img": "http://test.com" },
+    { "soldier_id": 5, "name": "test", "img": "http://test.com" },
+    { "soldier_id": 6, "name": "noone", "img": "http://test.com" },
+    { "soldier_id": 7, "name": "everybody", "img": "http://test.com" }
+  ]
+}
