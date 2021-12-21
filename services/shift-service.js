@@ -1,8 +1,31 @@
 const Shift = require('../db/models/shift')
+const daysToCalculate = process.env.CONFIG_TIME_PERIOD_DAYS
+
+function calculateSchedules(repetition, duration, peoplePerShift, start) {
+  switch (repetition) {
+    case '24': {
+      //shift in 24 hours
+      const scheduleSlotsInDay = Math.ceil(24 / parseInt(duration))
+      const scheduleSlotsToCalculate = scheduleSlotsInDay * daysToCalculate
+      const startDate = Date.parse(start)
+      console.log(startDate)
+      return
+    }
+    case 'once': {
+      return
+    }
+  }
+}
 
 async function createShift(name, repetition, duration, peoplePerShift, start, end = null) {
   const shift = new Shift({ name, repetition, duration, peoplePerShift, start, end })
-  const savedUser = await shift.save()
+  const savedShift = await shift.save()
+
+  // parse Shift, how many schedules are needed?
+  const requiredSchedules = calculateSchedules(repetition, duration, peoplePerShift, start)
+  // create array of schedules
+  // create many unassigned schedules
+  // return shift + unassigned schedules
   return shift
 }
 
