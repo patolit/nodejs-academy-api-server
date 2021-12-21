@@ -13,16 +13,14 @@ const { Schema } = mongoose
 // https://mongoosejs.com/docs/api.html#schema_Schema.Types
 
 const shiftSchema = new Schema({
-    shift_id: Number,
-    name: String, // {type: String}
-    repetition: String,
-    duration: Number,
-    peoplePerShift: Number,
-    start: Number,
-    end:Number
+  shift_id: Number,
+  name: String, // {type: String}
+  repetition: String,
+  duration: Number,
+  peoplePerShift: Number,
+  start: Date,
+  end: Number,
 })
-
-
 
 const Shift = mongoose.model('Shift', shiftSchema)
 
