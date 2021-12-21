@@ -82,9 +82,9 @@ function validate(method) {
         body('name', 'name dosnt exists or invalid').exists().isString(),
         body('repetition', 'repetition dosnt not exists or invalid').exists().isString().escape(),
         body('duration', "duration doesn't exists").exists().isNumeric(),
-        body('peoplePerShift', "peoplePerShift doesn't exists").exists().isString(),
+        body('peoplePerShift', "peoplePerShift doesn't exists").exists().isNumeric(),
         body('start', "start doesn't exists").exists().isString(),
-        body('end', "end doesn't exists").isString(),
+        body('end', "end doesn't exists").optional().isString(),
       ]
     }
     case 'modifyShift': {
